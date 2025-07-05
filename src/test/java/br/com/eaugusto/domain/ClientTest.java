@@ -3,7 +3,8 @@ package br.com.eaugusto.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +39,7 @@ public class ClientTest {
 		client.setName("Eduardo");
 
 		Integer quantityAdded = dao.register(client);
-		assertTrue(quantityAdded == 1);
+		assertEquals(1, quantityAdded, "should register one client");
 
 		Client clientDB = dao.search(client.getCode());
 		assertNotNull(clientDB);
@@ -54,5 +55,46 @@ public class ClientTest {
 	public void searchNullClientTest() throws Exception {
 		Client nullClient = dao.search("This-code-never-should-exist-1234569");
 		assertNull(nullClient);
+	}
+
+	@Test
+	public void searchAllTest() throws Exception {
+		Client client1 = new Client();
+		client1.setCode("01234");
+		client1.setName("Maria");
+		dao.register(client1);
+
+		Client client2 = new Client();
+		client2.setCode("A3456");
+		client2.setName("John");
+		dao.register(client2);
+
+		List<Client> clients = dao.searchAll();
+		assertNotNull(clients);
+		assertEquals(2, clients.size(), "two clients should be found");
+
+		Integer deleted1 = dao.delete(client1);
+		assertEquals(1, deleted1, "client1 should be deleted");
+
+		Integer deleted2 = dao.delete(client2);
+		assertEquals(1, deleted2, "client2 should be deleted");
+	}
+
+	@Test
+	public void updateTest() throws Exception {
+		Client client = new Client();
+		client.setCode("A7654");
+		client.setName("Augusto");
+		dao.register(client);
+
+		client.setName("Eduardo Augusto");
+		Integer updatedRows = dao.update(client);
+		assertEquals(1, updatedRows, "one row should be updated");
+
+		Client updatedClient = dao.search(client.getCode());
+		assertEquals("Eduardo Augusto", updatedClient.getName());
+
+		Integer deleted = dao.delete(client);
+		assertEquals(1, deleted, "client1 should be deleted");
 	}
 }

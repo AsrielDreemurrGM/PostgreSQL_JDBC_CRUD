@@ -1,5 +1,7 @@
 package br.com.eaugusto.dao;
 
+import java.util.List;
+
 import br.com.eaugusto.domain.Client;
 
 /**
@@ -37,4 +39,8 @@ public interface IClientDAO {
 	 * @throws Exception If a database error occurs
 	 */
 	public Integer delete(Client clientDB) throws Exception;
+
+	public List<Client> searchAll() throws Exception;
+
+	public Integer update(Client client) throws Exception;
 }
