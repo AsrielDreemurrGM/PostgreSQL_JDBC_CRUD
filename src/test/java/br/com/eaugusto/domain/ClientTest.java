@@ -1,10 +1,11 @@
 package br.com.eaugusto.domain;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import br.com.eaugusto.dao.ClientDAO;
 import br.com.eaugusto.dao.IClientDAO;
@@ -28,10 +29,10 @@ import br.com.eaugusto.dao.IClientDAO;
  */
 public class ClientTest {
 
+	private final IClientDAO dao = new ClientDAO();
+
 	@Test
 	public void registerTest() throws Exception {
-		IClientDAO dao = new ClientDAO();
-
 		Client client = new Client();
 		client.setCode("01");
 		client.setName("Eduardo");
@@ -47,5 +48,11 @@ public class ClientTest {
 
 		Integer quantityDeleted = dao.delete(clientDB);
 		assertNotNull(quantityDeleted);
+	}
+
+	@Test
+	public void searchNullClientTest() throws Exception {
+		Client nullClient = dao.search("This-code-never-should-exist-1234569");
+		assertNull(nullClient);
 	}
 }
