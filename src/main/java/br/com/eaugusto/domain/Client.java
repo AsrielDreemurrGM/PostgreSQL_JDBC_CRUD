@@ -1,5 +1,15 @@
 package br.com.eaugusto.domain;
 
+/**
+ * Domain class representing a client entity. Contains basic fields such as ID,
+ * code, and name, along with their getters and setters.
+ * 
+ * This class is used for data transfer between the application and the database
+ * layer.
+ * 
+ * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
+ * @since July 5, 2025
+ */
 public class Client {
 
 	private Long id;

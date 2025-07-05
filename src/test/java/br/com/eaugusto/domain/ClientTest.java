@@ -10,6 +10,19 @@ import br.com.eaugusto.dao.ClientDAO;
 import br.com.eaugusto.dao.IClientDAO;
 
 /**
+ * Integration test for {@link ClientDAO} using the {@link IClientDAO}
+ * interface.
+ * 
+ * <p>
+ * This test performs a complete database cycle: it registers a new client,
+ * retrieves it, validates the data, and then deletes it from the database.
+ * </p>
+ * 
+ * <p>
+ * <b>Note:</b> Requires a working database connection and correct environment
+ * variables.
+ * </p>
+ * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 5, 2025
  */
