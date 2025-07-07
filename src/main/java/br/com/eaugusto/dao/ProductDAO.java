@@ -7,6 +7,13 @@ import br.com.eaugusto.dao.generics.GenericDAO;
 import br.com.eaugusto.domain.Product;
 
 /**
+ * DAO implementation for {@link Product} entities using {@link GenericDAO}.
+ * 
+ * <p>
+ * Provides database operations including custom handling for the "description"
+ * field.
+ * </p>
+ * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 7, 2025
  */

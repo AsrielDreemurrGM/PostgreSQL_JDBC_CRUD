@@ -19,10 +19,27 @@ import br.com.eaugusto.generic.jdbc.ConnectionFactory;
  */
 public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<T> {
 
+	/**
+	 * @return The table name for the entity.
+	 */
 	protected abstract String getTableName();
 
+	/**
+	 * Maps a {@link ResultSet} row to an entity.
+	 * 
+	 * @param result The result set containing the row data
+	 * @return The mapped entity
+	 * @throws Exception If an error occurs during mapping
+	 */
 	protected abstract T mapResult(ResultSet result) throws Exception;
 
+	/**
+	 * Sets the parameters for updating an entity in the database.
+	 * 
+	 * @param statement The prepared statement to set parameters on
+	 * @param entity    The entity with updated data
+	 * @throws Exception If an error occurs while setting parameters
+	 */
 	protected abstract void setUpdateParameters(PreparedStatement statement, T entity) throws Exception;
 
 	@Override
@@ -111,9 +128,16 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	}
 
 	/**
-	 * @return The SQL for registering an entity
+	 * @return The SQL statement for inserting an entity.
 	 */
 	protected abstract String getRegisterSql();
 
+	/**
+	 * Sets the parameters for inserting an entity into the database.
+	 * 
+	 * @param statement The prepared statement to set parameters on
+	 * @param entity    The entity to insert
+	 * @throws Exception If an error occurs while setting parameters
+	 */
 	protected abstract void setRegisterParameters(PreparedStatement statement, T entity) throws Exception;
 }

@@ -16,8 +16,9 @@ import br.com.eaugusto.dao.IClientDAO;
  * interface.
  * 
  * <p>
- * This test performs a complete database cycle: it registers a new client,
- * retrieves it, validates the data, and then deletes it from the database.
+ * This test performs a complete database cycle for clients: it registers a new
+ * client, retrieves it, validates the data, updates it, and then deletes it
+ * from the database.
  * </p>
  * 
  * <p>

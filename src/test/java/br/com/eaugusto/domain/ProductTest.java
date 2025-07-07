@@ -12,6 +12,20 @@ import br.com.eaugusto.dao.IProductDAO;
 import br.com.eaugusto.dao.ProductDAO;
 
 /**
+ * Integration test for {@link ProductDAO} using the {@link IProductDAO}
+ * interface.
+ * 
+ * <p>
+ * This test performs a complete database cycle for products: it registers a new
+ * product, retrieves it, validates the data, updates it, and then deletes it
+ * from the database.
+ * </p>
+ * 
+ * <p>
+ * <b>Note:</b> Requires a working database connection and correct environment
+ * variables.
+ * </p>
+ * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 7, 2025
  */
