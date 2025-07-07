@@ -1,6 +1,18 @@
 package br.com.eaugusto.domain;
 
 /**
+ * Domain class representing a product entity.
+ * <p>
+ * Contains basic fields such as ID, name, code, and description, along with
+ * their respective getters and setters. Implements {@link IPersistable} to
+ * provide generic access to the product's identifying attributes.
+ * </p>
+ *
+ * <p>
+ * This class is used for data transfer between the application and the database
+ * layer.
+ * </p>
+ * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 6, 2025
  */

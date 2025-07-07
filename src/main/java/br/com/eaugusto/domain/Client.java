@@ -1,12 +1,17 @@
 package br.com.eaugusto.domain;
 
 /**
- * Domain class representing a client entity. Contains basic fields such as ID,
- * code, and name, along with their getters and setters. Implements
- * {@link IPersistable} for identification and for returning Client information.
- * 
+ * Domain class representing a client entity.
+ * <p>
+ * Contains basic fields such as ID, code, and name, along with their respective
+ * getters and setters. Implements {@link IPersistable} to provide generic
+ * access to the client's identifying attributes.
+ * </p>
+ *
+ * <p>
  * This class is used for data transfer between the application and the database
  * layer.
+ * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 5, 2025
