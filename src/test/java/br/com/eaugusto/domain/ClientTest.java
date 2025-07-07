@@ -95,6 +95,6 @@ public class ClientTest {
 		assertEquals("Eduardo Augusto", updatedClient.getEntityName());
 
 		Integer deleted = dao.delete(client);
-		assertEquals(1, deleted, "client1 should be deleted");
+		assertEquals(1, deleted, "client should be deleted");
 	}
 }

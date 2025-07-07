@@ -33,4 +33,15 @@ public class ClientDAO extends GenericDAO<Client> implements IClientDAO {
 		statement.setString(1, entity.getEntityName());
 		statement.setString(2, entity.getEntityCode());
 	}
+
+	@Override
+	protected String getRegisterSql() {
+		return "INSERT INTO " + getTableName() + " (id, code, name) VALUES (nextval('sq_client'), ?, ?)";
+	}
+
+	@Override
+	protected void setRegisterParameters(PreparedStatement statement, Client entity) throws Exception {
+		statement.setString(1, entity.getEntityCode());
+		statement.setString(2, entity.getEntityName());
+	}
 }

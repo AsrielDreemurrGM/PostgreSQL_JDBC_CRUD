@@ -27,13 +27,12 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 	@Override
 	public Integer register(T entity) throws Exception {
-		String sql = "INSERT INTO " + getTableName() + " (id, code, name) VALUES (nextval('sq_client'), ?, ?)";
+		String sql = getRegisterSql();
 
 		try (Connection connection = ConnectionFactory.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
 
-			statement.setString(1, entity.getEntityCode());
-			statement.setString(2, entity.getEntityName());
+			setRegisterParameters(statement, entity);
 
 			return statement.executeUpdate();
 		}
@@ -41,7 +40,7 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 	@Override
 	public T search(String code) throws Exception {
-		String sql = "SELECT id, code, name FROM " + getTableName() + " WHERE code = ?";
+		String sql = getSelectSql() + " WHERE code = ?";
 
 		try (Connection connection = ConnectionFactory.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -71,7 +70,7 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 	@Override
 	public List<T> searchAll() throws Exception {
-		String sql = "SELECT id, code, name FROM " + getTableName();
+		String sql = getSelectSql();
 
 		try (Connection connection = ConnectionFactory.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql);
@@ -87,7 +86,7 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 	@Override
 	public Integer update(T entity) throws Exception {
-		String sql = "UPDATE " + getTableName() + " SET name = ? WHERE code = ?";
+		String sql = getUpdateSql();
 
 		try (Connection connection = ConnectionFactory.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -96,4 +95,25 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 			return statement.executeUpdate();
 		}
 	}
+
+	/**
+	 * @return The SQL for updating an entity
+	 */
+	protected String getUpdateSql() {
+		return "UPDATE " + getTableName() + " SET name = ? WHERE code = ?";
+	}
+
+	/**
+	 * @return The SQL for selecting an entity
+	 */
+	protected String getSelectSql() {
+		return "SELECT id, code, name FROM " + getTableName();
+	}
+
+	/**
+	 * @return The SQL for registering an entity
+	 */
+	protected abstract String getRegisterSql();
+
+	protected abstract void setRegisterParameters(PreparedStatement statement, T entity) throws Exception;
 }
