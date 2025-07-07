@@ -41,11 +41,11 @@ public class ClientTest {
 		Integer quantityAdded = dao.register(client);
 		assertEquals(1, quantityAdded, "should register one client");
 
-		Client clientDB = dao.search(client.getCode());
+		Client clientDB = dao.search(client.getEntityCode());
 		assertNotNull(clientDB);
 		assertNotNull(clientDB.getId());
-		assertEquals(client.getCode(), clientDB.getCode());
-		assertEquals(client.getName(), clientDB.getName());
+		assertEquals(client.getEntityCode(), clientDB.getEntityCode());
+		assertEquals(client.getEntityName(), clientDB.getEntityName());
 
 		Integer quantityDeleted = dao.delete(clientDB);
 		assertNotNull(quantityDeleted);
@@ -91,8 +91,8 @@ public class ClientTest {
 		Integer updatedRows = dao.update(client);
 		assertEquals(1, updatedRows, "one row should be updated");
 
-		Client updatedClient = dao.search(client.getCode());
-		assertEquals("Eduardo Augusto", updatedClient.getName());
+		Client updatedClient = dao.search(client.getEntityCode());
+		assertEquals("Eduardo Augusto", updatedClient.getEntityName());
 
 		Integer deleted = dao.delete(client);
 		assertEquals(1, deleted, "client1 should be deleted");

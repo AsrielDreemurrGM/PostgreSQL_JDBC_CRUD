@@ -2,7 +2,8 @@ package br.com.eaugusto.domain;
 
 /**
  * Domain class representing a client entity. Contains basic fields such as ID,
- * code, and name, along with their getters and setters.
+ * code, and name, along with their getters and setters. Implements
+ * {@link IPersistable} for identification and for returning Client information.
  * 
  * This class is used for data transfer between the application and the database
  * layer.
@@ -10,7 +11,7 @@ package br.com.eaugusto.domain;
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 5, 2025
  */
-public class Client {
+public class Client implements IPersistable {
 
 	private Long id;
 
@@ -26,19 +27,21 @@ public class Client {
 		this.id = id;
 	}
 
-	public String getCode() {
-		return code;
-	}
-
 	public void setCode(String code) {
 		this.code = code;
 	}
 
-	public String getName() {
-		return name;
-	}
-
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String getEntityCode() {
+		return code;
+	}
+
+	@Override
+	public String getEntityName() {
+		return name;
 	}
 }
