@@ -1,5 +1,8 @@
 <h1>PostgreSQL JDBC CRUD Project</h1>
 <p>
+  Esse README também esta disponível em <a href="./README_PT-BR.md">Português Brasileiro</a>.
+</p>
+<p>
   This project is a backend Java application that demonstrates how to implement a full CRUD system using
   <strong>PostgreSQL</strong>, <strong>JDBC</strong>, and <strong>JUnit 5</strong> for testing.
   It applies clean code practices and design patterns such as <strong>Generics</strong> for reusable DAO layers.
@@ -59,6 +62,7 @@
   <li>Ensure clean, maintainable code with full documentation and tests.</li>
 </ul>
 <h2>📂 Database Schema (schema.sql)</h2>
+<a href="./schema.sql.sql" target="_blank">📄 Link to schema.sql (SQL Script)</a>
 <p>
   The provided <code>schema.sql</code> script creates the required database structure for the application:
 </p>
