@@ -9,8 +9,9 @@ import br.com.eaugusto.domain.Product;
  * DAO implementation for {@link Product} entities using {@link GenericDAO}.
  * 
  * <p>
- * Provides database operations including custom handling for the "description"
- * field.
+ * Provides SQL statements and parameter mappings for product-specific
+ * operations. Entity mapping is handled automatically by the generic superclass
+ * using annotations.
  * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)

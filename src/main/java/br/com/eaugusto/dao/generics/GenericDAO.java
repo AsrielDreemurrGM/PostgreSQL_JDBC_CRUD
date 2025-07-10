@@ -14,15 +14,33 @@ import br.com.eaugusto.domain.IPersistable;
 import br.com.eaugusto.generic.jdbc.ConnectionFactory;
 
 /**
- * Generic DAO base class for common database operations.
+ * Generic DAO base class for common database operations using annotations and
+ * reflection.
  *
- * @param <T> Entity type
+ * <p>
+ * Automatically maps database rows to entity fields annotated with
+ * {@link Column}, and retrieves table names from the {@link Table} annotation.
+ * </p>
+ *
+ * <p>
+ * Subclasses only need to implement SQL for registering and updating, and
+ * provide the entity class via {@link #getEntityClass()}.
+ * </p>
+ *
+ * @param <T> Entity type extending {@link IPersistable}
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 6, 2025
  */
 public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<T> {
 
+	/**
+	 * Retrieves the database table name from the {@link Table} annotation.
+	 * 
+	 * @return The table name
+	 * @throws RuntimeException If the entity class lacks the {@link Table}
+	 *                          annotation
+	 */
 	protected String getTableName() {
 		Table tableAnnotation = getEntityClass().getAnnotation(Table.class);
 		if (tableAnnotation != null) {
@@ -34,11 +52,15 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	}
 
 	/**
-	 * Maps a {@link ResultSet} row to an entity.
+	 * Maps a {@link ResultSet} row to an entity using reflection and annotations.
+	 * 
+	 * <p>
+	 * Fields must be annotated with {@link Column} to be mapped automatically.
+	 * </p>
 	 * 
 	 * @param result The result set containing the row data
 	 * @return The mapped entity
-	 * @throws Exception If an error occurs during mapping
+	 * @throws Exception If a reflection or SQL error occurs during mapping
 	 */
 	protected final T mapResult(ResultSet result) throws Exception {
 		T entity = getEntityClass().getDeclaredConstructor().newInstance();

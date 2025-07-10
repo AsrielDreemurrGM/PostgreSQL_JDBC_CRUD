@@ -6,7 +6,13 @@ import br.com.eaugusto.dao.generics.GenericDAO;
 import br.com.eaugusto.domain.Client;
 
 /**
- * DAO implementation for Client using GenericDAO and PostgreSQL.
+ * DAO implementation for {@link Client} entities using {@link GenericDAO}.
+ * 
+ * <p>
+ * Provides SQL statements and parameter mappings for client-specific
+ * operations. Entity mapping is handled automatically by the generic superclass
+ * using annotations.
+ * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 5, 2025
