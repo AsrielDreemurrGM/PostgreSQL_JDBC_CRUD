@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.eaugusto.annotations.Table;
 import br.com.eaugusto.domain.IPersistable;
 import br.com.eaugusto.generic.jdbc.ConnectionFactory;
 
@@ -19,10 +20,15 @@ import br.com.eaugusto.generic.jdbc.ConnectionFactory;
  */
 public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<T> {
 
-	/**
-	 * @return The table name for the entity.
-	 */
-	protected abstract String getTableName();
+	protected String getTableName() {
+		Table tableAnnotation = getEntityClass().getAnnotation(Table.class);
+		if (tableAnnotation != null) {
+			return tableAnnotation.value();
+		} else {
+			throw new RuntimeException(
+					"Entity class " + getEntityClass().getSimpleName() + " missing @Table annotation");
+		}
+	}
 
 	/**
 	 * Maps a {@link ResultSet} row to an entity.
@@ -112,6 +118,8 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 			return statement.executeUpdate();
 		}
 	}
+
+	protected abstract Class<T> getEntityClass();
 
 	/**
 	 * @return The SQL for updating an entity

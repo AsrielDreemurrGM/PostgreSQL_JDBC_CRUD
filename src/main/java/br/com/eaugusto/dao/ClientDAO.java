@@ -25,16 +25,16 @@ public class ClientDAO extends GenericDAO<Client> implements IClientDAO {
 		client.setId(result.getLong("id"));
 		client.setCode(result.getString("code"));
 		client.setName(result.getString("name"));
-		client.setEmail(result.getString("email")); // new
-		client.setPhone(result.getString("phone")); // new
+		client.setEmail(result.getString("email"));
+		client.setPhone(result.getString("phone"));
 		return client;
 	}
 
 	@Override
 	protected void setUpdateParameters(PreparedStatement statement, Client entity) throws Exception {
 		statement.setString(1, entity.getEntityName());
-		statement.setString(2, entity.getEmail()); // new
-		statement.setString(3, entity.getPhone()); // new
+		statement.setString(2, entity.getEmail());
+		statement.setString(3, entity.getPhone());
 		statement.setString(4, entity.getEntityCode());
 	}
 
@@ -60,5 +60,10 @@ public class ClientDAO extends GenericDAO<Client> implements IClientDAO {
 		statement.setString(2, entity.getEntityName());
 		statement.setString(3, entity.getEmail());
 		statement.setString(4, entity.getPhone());
+	}
+
+	@Override
+	protected Class<Client> getEntityClass() {
+		return Client.class;
 	}
 }

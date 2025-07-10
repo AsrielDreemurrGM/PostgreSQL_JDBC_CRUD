@@ -1,5 +1,8 @@
 package br.com.eaugusto.domain;
 
+import br.com.eaugusto.annotations.Column;
+import br.com.eaugusto.annotations.Table;
+
 /**
  * Domain class representing a client entity.
  * <p>
@@ -16,16 +19,22 @@ package br.com.eaugusto.domain;
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 5, 2025
  */
+@Table("tb_client")
 public class Client implements IPersistable {
 
+	@Column("id")
 	private Long id;
 
+	@Column("code")
 	private String code;
 
+	@Column("name")
 	private String name;
 
+	@Column("email")
 	private String email;
 
+	@Column("phone")
 	private String phone;
 
 	public Long getId() {

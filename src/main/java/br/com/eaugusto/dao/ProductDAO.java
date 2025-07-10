@@ -31,8 +31,8 @@ public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 		product.setCode(result.getString("code"));
 		product.setName(result.getString("name"));
 		product.setDescription(result.getString("description"));
-		product.setPrice(result.getDouble("price")); // new
-		product.setStockQuantity(result.getInt("stock_quantity")); // new
+		product.setPrice(result.getDouble("price"));
+		product.setStockQuantity(result.getInt("stock_quantity"));
 		return product;
 	}
 
@@ -40,8 +40,8 @@ public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 	protected void setUpdateParameters(PreparedStatement statement, Product entity) throws Exception {
 		statement.setString(1, entity.getEntityName());
 		statement.setString(2, entity.getDescription());
-		statement.setDouble(3, entity.getPrice()); // new
-		statement.setInt(4, entity.getStockQuantity()); // new
+		statement.setDouble(3, entity.getPrice());
+		statement.setInt(4, entity.getStockQuantity());
 		statement.setString(5, entity.getEntityCode());
 	}
 
@@ -69,5 +69,10 @@ public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 		statement.setString(3, entity.getDescription());
 		statement.setDouble(4, entity.getPrice());
 		statement.setInt(5, entity.getStockQuantity());
+	}
+
+	@Override
+	protected Class<Product> getEntityClass() {
+		return Product.class;
 	}
 }

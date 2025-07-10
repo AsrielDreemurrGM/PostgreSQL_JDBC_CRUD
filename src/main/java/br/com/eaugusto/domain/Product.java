@@ -1,5 +1,8 @@
 package br.com.eaugusto.domain;
 
+import br.com.eaugusto.annotations.Column;
+import br.com.eaugusto.annotations.Table;
+
 /**
  * Domain class representing a product entity.
  * <p>
@@ -16,18 +19,25 @@ package br.com.eaugusto.domain;
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 6, 2025
  */
+@Table("tb_product")
 public class Product implements IPersistable {
 
+	@Column("id")
 	private Long id;
 
+	@Column("name")
 	private String name;
 
+	@Column("code")
 	private String code;
 
+	@Column("description")
 	private String description;
 
+	@Column("price")
 	private Double price;
 
+	@Column("stock_quantity")
 	private Integer stockQuantity;
 
 	public Long getId() {
