@@ -1,7 +1,6 @@
 package br.com.eaugusto.dao;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import br.com.eaugusto.dao.generics.GenericDAO;
 import br.com.eaugusto.domain.Product;
@@ -22,18 +21,6 @@ public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 	@Override
 	protected String getTableName() {
 		return "tb_product";
-	}
-
-	@Override
-	protected Product mapResult(ResultSet result) throws Exception {
-		Product product = new Product();
-		product.setId(result.getLong("id"));
-		product.setCode(result.getString("code"));
-		product.setName(result.getString("name"));
-		product.setDescription(result.getString("description"));
-		product.setPrice(result.getDouble("price"));
-		product.setStockQuantity(result.getInt("stock_quantity"));
-		return product;
 	}
 
 	@Override

@@ -1,11 +1,14 @@
 package br.com.eaugusto.dao.generics;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.eaugusto.annotations.Column;
 import br.com.eaugusto.annotations.Table;
 import br.com.eaugusto.domain.IPersistable;
 import br.com.eaugusto.generic.jdbc.ConnectionFactory;
@@ -37,7 +40,38 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	 * @return The mapped entity
 	 * @throws Exception If an error occurs during mapping
 	 */
-	protected abstract T mapResult(ResultSet result) throws Exception;
+	protected final T mapResult(ResultSet result) throws Exception {
+		T entity = getEntityClass().getDeclaredConstructor().newInstance();
+
+		for (Field field : getEntityClass().getDeclaredFields()) {
+			Column columnAnnotation = field.getAnnotation(Column.class);
+			if (columnAnnotation != null) {
+				String columnName = columnAnnotation.value();
+				Object value = null;
+				Class<?> type = field.getType();
+
+				if (type.equals(Long.class)) {
+					value = result.getLong(columnName);
+				} else if (type.equals(String.class)) {
+					value = result.getString(columnName);
+				} else if (type.equals(Double.class)) {
+					value = result.getDouble(columnName);
+				} else if (type.equals(Integer.class)) {
+					value = result.getInt(columnName);
+				} else {
+					throw new RuntimeException("Unsupported field type: " + type.getName());
+				}
+
+				String setterName = "set" + Character.toUpperCase(field.getName().charAt(0))
+						+ field.getName().substring(1);
+
+				Method setter = getEntityClass().getMethod(setterName, type);
+				setter.invoke(entity, value);
+			}
+		}
+
+		return entity;
+	}
 
 	/**
 	 * Sets the parameters for updating an entity in the database.

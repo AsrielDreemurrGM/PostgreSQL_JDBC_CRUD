@@ -1,7 +1,6 @@
 package br.com.eaugusto.dao;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 import br.com.eaugusto.dao.generics.GenericDAO;
 import br.com.eaugusto.domain.Client;
@@ -17,17 +16,6 @@ public class ClientDAO extends GenericDAO<Client> implements IClientDAO {
 	@Override
 	protected String getTableName() {
 		return "tb_client";
-	}
-
-	@Override
-	protected Client mapResult(ResultSet result) throws Exception {
-		Client client = new Client();
-		client.setId(result.getLong("id"));
-		client.setCode(result.getString("code"));
-		client.setName(result.getString("name"));
-		client.setEmail(result.getString("email"));
-		client.setPhone(result.getString("phone"));
-		return client;
 	}
 
 	@Override
