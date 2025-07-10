@@ -34,6 +34,8 @@ import br.com.eaugusto.generic.jdbc.ConnectionFactory;
  */
 public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<T> {
 
+	private final String WHERECODE = " WHERE code = ?";
+
 	/**
 	 * Retrieves the database table name from the {@link Table} annotation.
 	 * 
@@ -41,14 +43,13 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	 * @throws RuntimeException If the entity class lacks the {@link Table}
 	 *                          annotation
 	 */
-	protected String getTableName() {
+	private final String getTableName() {
 		Table tableAnnotation = getEntityClass().getAnnotation(Table.class);
-		if (tableAnnotation != null) {
-			return tableAnnotation.value();
-		} else {
+		if (tableAnnotation == null) {
 			throw new RuntimeException(
 					"Entity class " + getEntityClass().getSimpleName() + " missing @Table annotation");
 		}
+		return tableAnnotation.value();
 	}
 
 	/**
@@ -119,7 +120,7 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 	@Override
 	public T search(String code) throws Exception {
-		String sql = getSelectSql() + " WHERE code = ?";
+		String sql = getSelectSql() + WHERECODE;
 
 		try (Connection connection = ConnectionFactory.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -136,7 +137,7 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 	@Override
 	public Integer delete(T entity) throws Exception {
-		String sql = "DELETE FROM " + getTableName() + " WHERE code = ?";
+		String sql = "DELETE FROM " + getTableName() + WHERECODE;
 
 		try (Connection connection = ConnectionFactory.getConnection();
 				PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -181,20 +182,67 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	 * @return The SQL for updating an entity
 	 */
 	protected String getUpdateSql() {
-		return "UPDATE " + getTableName() + " SET name = ? WHERE code = ?";
+		StringBuilder sql = new StringBuilder();
+		sql.append("UPDATE ").append(getTableName()).append(" SET ");
+
+		List<String> columns = new ArrayList<>();
+		for (Field field : getEntityClass().getDeclaredFields()) {
+			Column column = field.getAnnotation(Column.class);
+			if (column != null && !"id".equalsIgnoreCase(column.value()) && !"code".equalsIgnoreCase(column.value())) {
+				columns.add(column.value() + " = ?");
+			}
+		}
+
+		sql.append(String.join(", ", columns)).append(WHERECODE);
+		return sql.toString();
 	}
 
 	/**
 	 * @return The SQL for selecting an entity
 	 */
 	protected String getSelectSql() {
-		return "SELECT id, code, name FROM " + getTableName();
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT ");
+
+		List<String> columns = new ArrayList<>();
+		for (Field field : getEntityClass().getDeclaredFields()) {
+			Column column = field.getAnnotation(Column.class);
+			if (column != null) {
+				columns.add(column.value());
+			}
+		}
+
+		sql.append(String.join(", ", columns)).append(" FROM ").append(getTableName());
+		return sql.toString();
 	}
 
 	/**
 	 * @return The SQL statement for inserting an entity.
 	 */
-	protected abstract String getRegisterSql();
+	protected String getRegisterSql() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO ").append(getTableName()).append(" (id");
+
+		List<String> columns = new ArrayList<>();
+		for (Field field : getEntityClass().getDeclaredFields()) {
+			Column column = field.getAnnotation(Column.class);
+			if (column != null && !"id".equalsIgnoreCase(column.value())) {
+				columns.add(column.value());
+			}
+		}
+
+		for (String column : columns) {
+			sql.append(", ").append(column);
+		}
+		sql.append(") VALUES (nextval('sq_").append(getTableName().substring(3)).append("')");
+
+		for (int i = 0; i < columns.size(); i++) {
+			sql.append(", ?");
+		}
+		sql.append(")");
+
+		return sql.toString();
+	}
 
 	/**
 	 * Sets the parameters for inserting an entity into the database.

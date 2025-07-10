@@ -20,34 +20,12 @@ import br.com.eaugusto.domain.Product;
 public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 
 	@Override
-	protected String getTableName() {
-		return "tb_product";
-	}
-
-	@Override
 	protected void setUpdateParameters(PreparedStatement statement, Product entity) throws Exception {
 		statement.setString(1, entity.getEntityName());
 		statement.setString(2, entity.getDescription());
 		statement.setDouble(3, entity.getPrice());
 		statement.setInt(4, entity.getStockQuantity());
 		statement.setString(5, entity.getEntityCode());
-	}
-
-	@Override
-	protected String getUpdateSql() {
-		return "UPDATE " + getTableName()
-				+ " SET name = ?, description = ?, price = ?, stock_quantity = ? WHERE code = ?";
-	}
-
-	@Override
-	protected String getSelectSql() {
-		return "SELECT id, code, name, description, price, stock_quantity FROM " + getTableName();
-	}
-
-	@Override
-	protected String getRegisterSql() {
-		return "INSERT INTO " + getTableName()
-				+ " (id, code, name, description, price, stock_quantity) VALUES (nextval('sq_product'), ?, ?, ?, ?, ?)";
 	}
 
 	@Override

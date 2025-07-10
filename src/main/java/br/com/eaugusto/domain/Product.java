@@ -25,11 +25,11 @@ public class Product implements IPersistable {
 	@Column("id")
 	private Long id;
 
-	@Column("name")
-	private String name;
-
 	@Column("code")
 	private String code;
+
+	@Column("name")
+	private String name;
 
 	@Column("description")
 	private String description;
