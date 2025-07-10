@@ -62,7 +62,7 @@
   <li>Ensure clean, maintainable code with full documentation and tests.</li>
 </ul>
 <h2>📂 Database Schema (schema.sql)</h2>
-<a href="./schema.sql.sql" target="_blank">📄 Link to schema.sql (SQL Script)</a>
+<a href="./schema.sql" target="_blank">📄 Link to schema.sql (SQL Script)</a>
 <p>
   The provided <code>schema.sql</code> script creates the required database structure for the application:
 </p>

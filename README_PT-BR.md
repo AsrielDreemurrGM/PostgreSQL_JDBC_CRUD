@@ -62,7 +62,7 @@
   <li>Garantir código limpo, bem documentado e com testes completos.</li>
 </ul>
 <h2>📂 Estrutura do Banco de Dados (schema.sql)</h2>
-<a href="./schema.sql.sql" target="_blank">📄 Link para o schema.sql (SQL Script)</a>
+<a href="./schema.sql" target="_blank">📄 Link para o schema.sql (SQL Script)</a>
 <p>
   O script <code>schema.sql</code> incluído no projeto cria toda a estrutura necessária para o banco de dados:
 </p>
