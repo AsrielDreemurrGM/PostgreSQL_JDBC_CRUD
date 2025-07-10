@@ -1,13 +1,15 @@
 -- Creates the database for the project
 CREATE DATABASE online_selling;
 
--- Remember to switch to the new database now;
+-- Remember to switch to the new database before running the below script;
 
 -- Creates the client table
 CREATE TABLE IF NOT EXISTS tb_client (
 	id BIGINT PRIMARY KEY,
 	name VARCHAR(50) NOT NULL,
-	code VARCHAR(50) NOT NULL
+	code VARCHAR(50) NOT NULL,
+	email VARCHAR(100),
+	phone VARCHAR(20)
 );
 
 -- Creates the sequence for client IDs
@@ -21,7 +23,9 @@ CREATE TABLE IF NOT EXISTS tb_product (
 	id BIGINT PRIMARY KEY,
 	name VARCHAR(50) NOT NULL,
 	code VARCHAR(50) NOT NULL,
-	description VARCHAR(50) NOT NULL
+	description VARCHAR(100),
+	price NUMERIC(10, 2),
+	stock_quantity INTEGER
 );
 
 -- Creates the sequence for product IDs
