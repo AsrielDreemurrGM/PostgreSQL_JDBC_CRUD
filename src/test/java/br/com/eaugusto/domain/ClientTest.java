@@ -38,6 +38,8 @@ public class ClientTest {
 		Client client = new Client();
 		client.setCode("01");
 		client.setName("Eduardo");
+		client.setEmail("eduardo@example.com");
+		client.setPhone("(99) 98765-1234");
 
 		Integer quantityAdded = dao.register(client);
 		assertEquals(1, quantityAdded, "should register one client");
@@ -47,9 +49,11 @@ public class ClientTest {
 		assertNotNull(clientDB.getId());
 		assertEquals(client.getEntityCode(), clientDB.getEntityCode());
 		assertEquals(client.getEntityName(), clientDB.getEntityName());
+		assertEquals(client.getEmail(), clientDB.getEmail());
+		assertEquals(client.getPhone(), clientDB.getPhone());
 
 		Integer quantityDeleted = dao.delete(clientDB);
-		assertNotNull(quantityDeleted);
+		assertEquals(1, quantityDeleted, "should delete one client");
 	}
 
 	@Test
@@ -63,11 +67,15 @@ public class ClientTest {
 		Client client1 = new Client();
 		client1.setCode("01234");
 		client1.setName("Maria");
+		client1.setEmail("maria@example.com");
+		client1.setPhone("(99) 76543-5678");
 		dao.register(client1);
 
 		Client client2 = new Client();
 		client2.setCode("A3456");
 		client2.setName("John");
+		client2.setEmail("john@example.com");
+		client2.setPhone("(99) 43210-8765");
 		dao.register(client2);
 
 		List<Client> clients = dao.searchAll();
@@ -86,14 +94,20 @@ public class ClientTest {
 		Client client = new Client();
 		client.setCode("A7654");
 		client.setName("Augusto");
+		client.setEmail("augusto@example.com");
+		client.setPhone("(88) 00000-0000");
 		dao.register(client);
 
 		client.setName("Eduardo Augusto");
+		client.setEmail("eduardo.augusto@example.com");
+		client.setPhone("(99) 45678-8765");
 		Integer updatedRows = dao.update(client);
 		assertEquals(1, updatedRows, "one row should be updated");
 
 		Client updatedClient = dao.search(client.getEntityCode());
 		assertEquals("Eduardo Augusto", updatedClient.getEntityName());
+		assertEquals("eduardo.augusto@example.com", updatedClient.getEmail());
+		assertEquals("(99) 45678-8765", updatedClient.getPhone());
 
 		Integer deleted = dao.delete(client);
 		assertEquals(1, deleted, "client should be deleted");

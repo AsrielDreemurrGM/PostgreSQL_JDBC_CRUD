@@ -31,6 +31,8 @@ public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 		product.setCode(result.getString("code"));
 		product.setName(result.getString("name"));
 		product.setDescription(result.getString("description"));
+		product.setPrice(result.getDouble("price")); // new
+		product.setStockQuantity(result.getInt("stock_quantity")); // new
 		return product;
 	}
 
@@ -38,23 +40,26 @@ public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 	protected void setUpdateParameters(PreparedStatement statement, Product entity) throws Exception {
 		statement.setString(1, entity.getEntityName());
 		statement.setString(2, entity.getDescription());
-		statement.setString(3, entity.getEntityCode());
+		statement.setDouble(3, entity.getPrice()); // new
+		statement.setInt(4, entity.getStockQuantity()); // new
+		statement.setString(5, entity.getEntityCode());
 	}
 
 	@Override
 	protected String getUpdateSql() {
-		return "UPDATE " + getTableName() + " SET name = ?, description = ? WHERE code = ?";
+		return "UPDATE " + getTableName()
+				+ " SET name = ?, description = ?, price = ?, stock_quantity = ? WHERE code = ?";
 	}
 
 	@Override
 	protected String getSelectSql() {
-		return "SELECT id, code, name, description FROM " + getTableName();
+		return "SELECT id, code, name, description, price, stock_quantity FROM " + getTableName();
 	}
 
 	@Override
 	protected String getRegisterSql() {
 		return "INSERT INTO " + getTableName()
-				+ " (id, code, name, description) VALUES (nextval('sq_product'), ?, ?, ?)";
+				+ " (id, code, name, description, price, stock_quantity) VALUES (nextval('sq_product'), ?, ?, ?, ?, ?)";
 	}
 
 	@Override
@@ -62,5 +67,7 @@ public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 		statement.setString(1, entity.getEntityCode());
 		statement.setString(2, entity.getEntityName());
 		statement.setString(3, entity.getDescription());
+		statement.setDouble(4, entity.getPrice());
+		statement.setInt(5, entity.getStockQuantity());
 	}
 }

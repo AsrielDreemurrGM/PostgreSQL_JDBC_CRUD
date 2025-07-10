@@ -26,12 +26,24 @@ public class Product implements IPersistable {
 
 	private String description;
 
+	private Double price;
+
+	private Integer stockQuantity;
+
 	public Long getId() {
 		return id;
 	}
 
 	public String getDescription() {
 		return description;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public Integer getStockQuantity() {
+		return stockQuantity;
 	}
 
 	public void setId(Long id) {
@@ -48,6 +60,14 @@ public class Product implements IPersistable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public void setStockQuantity(Integer stockQuantity) {
+		this.stockQuantity = stockQuantity;
 	}
 
 	@Override

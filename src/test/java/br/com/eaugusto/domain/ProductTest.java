@@ -39,6 +39,8 @@ public class ProductTest {
 		product.setCode("A321B654");
 		product.setName("Test-Wooden-Table");
 		product.setDescription("Four-Legged-Table");
+		product.setPrice(99.99);
+		product.setStockQuantity(10);
 
 		Integer quantityAdded = dao.register(product);
 		assertEquals(1, quantityAdded, "should register one product");
@@ -48,9 +50,12 @@ public class ProductTest {
 		assertNotNull(databaseProduct.getId());
 		assertEquals(product.getEntityCode(), databaseProduct.getEntityCode());
 		assertEquals(product.getEntityName(), databaseProduct.getEntityName());
+		assertEquals(product.getDescription(), databaseProduct.getDescription());
+		assertEquals(product.getPrice(), databaseProduct.getPrice());
+		assertEquals(product.getStockQuantity(), databaseProduct.getStockQuantity());
 
 		Integer quantityDeleted = dao.delete(databaseProduct);
-		assertNotNull(quantityDeleted);
+		assertEquals(1, quantityDeleted, "should delete one product");
 	}
 
 	@Test
@@ -65,12 +70,16 @@ public class ProductTest {
 		product1.setCode("A987B456");
 		product1.setName("Test-Wooden-Cabinet");
 		product1.setDescription("Maple-Wood-Cabinet");
+		product1.setPrice(150.00);
+		product1.setStockQuantity(5);
 		dao.register(product1);
 
 		Product product2 = new Product();
 		product2.setCode("A543B210");
 		product2.setName("Test-Wooden-Chair");
 		product2.setDescription("Three-Legged-Chair");
+		product2.setPrice(49.99);
+		product2.setStockQuantity(15);
 		dao.register(product2);
 
 		List<Product> products = dao.searchAll();
@@ -90,14 +99,20 @@ public class ProductTest {
 		product.setCode("A1098B765");
 		product.setName("Test-Wood-Couch");
 		product.setDescription("Couch-Made-Of-Hard-Wood");
+		product.setPrice(200.00);
+		product.setStockQuantity(7);
 		dao.register(product);
 
 		product.setName("Test-Wooden-Couch");
+		product.setPrice(210.00);
+		product.setStockQuantity(9);
 		Integer updatedRows = dao.update(product);
 		assertEquals(1, updatedRows, "one row should be updated");
 
 		Product updatedProduct = dao.search(product.getEntityCode());
 		assertEquals("Test-Wooden-Couch", updatedProduct.getEntityName());
+		assertEquals(210.00, updatedProduct.getPrice());
+		assertEquals(9, updatedProduct.getStockQuantity());
 
 		Integer deleted = dao.delete(product);
 		assertEquals(1, deleted, "product should be deleted");

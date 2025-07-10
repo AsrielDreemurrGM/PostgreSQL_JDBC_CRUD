@@ -24,6 +24,10 @@ public class Client implements IPersistable {
 
 	private String name;
 
+	private String email;
+
+	private String phone;
+
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +42,22 @@ public class Client implements IPersistable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPhone() {
+		return phone;
 	}
 
 	@Override
