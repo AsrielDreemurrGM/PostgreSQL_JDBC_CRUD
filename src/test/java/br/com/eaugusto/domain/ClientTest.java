@@ -14,13 +14,17 @@ import br.com.eaugusto.dao.IClientDAO;
 /**
  * Integration test for {@link ClientDAO} using the {@link IClientDAO}
  * interface.
- * 
+ *
  * <p>
  * This test performs a complete database cycle for clients: it registers a new
  * client, retrieves it, validates the data, updates it, and then deletes it
  * from the database.
  * </p>
- * 
+ *
+ * <p>
+ * Uses auto-generated SQL queries based on annotations in the domain classes.
+ * </p>
+ *
  * <p>
  * <b>Note:</b> Requires a working database connection and correct environment
  * variables.

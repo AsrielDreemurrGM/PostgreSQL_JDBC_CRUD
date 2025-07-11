@@ -7,15 +7,14 @@ import br.com.eaugusto.domain.Product;
 
 /**
  * DAO implementation for {@link Product} entities using {@link GenericDAO}.
- * 
+ *
  * <p>
- * Provides SQL statements and parameter mappings for product-specific
- * operations. Entity mapping is handled automatically by the generic superclass
- * using annotations.
+ * SQL statements are automatically generated based on entity annotations. This
+ * class provides parameter mappings for product-specific operations.
  * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
- * @since July 7, 2025
+ * @since July 7, 2025 (updated July 10, 2025 for SQL refactoring)
  */
 public class ProductDAO extends GenericDAO<Product> implements IProductDAO {
 

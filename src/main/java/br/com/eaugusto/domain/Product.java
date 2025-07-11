@@ -5,10 +5,11 @@ import br.com.eaugusto.annotations.Table;
 
 /**
  * Domain class representing a product entity.
+ *
  * <p>
- * Contains basic fields such as ID, name, code, and description, along with
- * their respective getters and setters. Implements {@link IPersistable} to
- * provide generic access to the product's identifying attributes.
+ * Fields are automatically mapped to database columns via annotations for
+ * persistence. Implements {@link IPersistable} to provide generic
+ * identification for DAO operations.
  * </p>
  *
  * <p>
@@ -17,7 +18,7 @@ import br.com.eaugusto.annotations.Table;
  * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
- * @since July 6, 2025
+ * @since July 6, 2025 (updated July 10, 2025 for annotation-based persistence)
  */
 @Table("tb_product")
 public class Product implements IPersistable {

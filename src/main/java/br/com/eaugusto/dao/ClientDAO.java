@@ -7,15 +7,14 @@ import br.com.eaugusto.domain.Client;
 
 /**
  * DAO implementation for {@link Client} entities using {@link GenericDAO}.
- * 
+ *
  * <p>
- * Provides SQL statements and parameter mappings for client-specific
- * operations. Entity mapping is handled automatically by the generic superclass
- * using annotations.
+ * SQL statements are automatically generated based on entity annotations. This
+ * class provides parameter mappings for client-specific operations.
  * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
- * @since July 5, 2025
+ * @since July 5, 2025 (updated July 10, 2025 for SQL refactoring)
  */
 public class ClientDAO extends GenericDAO<Client> implements IClientDAO {
 

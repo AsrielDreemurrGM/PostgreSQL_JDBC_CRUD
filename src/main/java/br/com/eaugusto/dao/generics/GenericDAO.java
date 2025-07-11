@@ -23,8 +23,10 @@ import br.com.eaugusto.generic.jdbc.ConnectionFactory;
  * </p>
  *
  * <p>
- * Subclasses only need to implement SQL for registering and updating, and
- * provide the entity class via {@link #getEntityClass()}.
+ * This class automatically generates SQL statements for registering, selecting,
+ * and updating entities based on annotations. Subclasses only need to provide
+ * entity-specific parameter mappings and the entity class via
+ * {@link #getEntityClass()}.
  * </p>
  *
  * @param <T> Entity type extending {@link IPersistable}
@@ -38,7 +40,7 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 	/**
 	 * Retrieves the database table name from the {@link Table} annotation.
-	 * 
+	 *
 	 * @return The table name
 	 * @throws RuntimeException If the entity class lacks the {@link Table}
 	 *                          annotation
@@ -179,7 +181,10 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	protected abstract Class<T> getEntityClass();
 
 	/**
-	 * @return The SQL for updating an entity
+	 * Generates the SQL statement for updating an entity based on its annotated
+	 * fields.
+	 *
+	 * @return The SQL update statement.
 	 */
 	protected String getUpdateSql() {
 		StringBuilder sql = new StringBuilder();
@@ -198,7 +203,9 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	}
 
 	/**
-	 * @return The SQL for selecting an entity
+	 * Generates the SQL statement for selecting entities based on annotated fields.
+	 *
+	 * @return The SQL select statement.
 	 */
 	protected String getSelectSql() {
 		StringBuilder sql = new StringBuilder();
@@ -217,7 +224,10 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	}
 
 	/**
-	 * @return The SQL statement for inserting an entity.
+	 * Generates the SQL statement for inserting a new entity based on its annotated
+	 * fields.
+	 *
+	 * @return The SQL insert statement.
 	 */
 	protected String getRegisterSql() {
 		StringBuilder sql = new StringBuilder();

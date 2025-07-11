@@ -22,6 +22,10 @@ import br.com.eaugusto.dao.ProductDAO;
  * </p>
  * 
  * <p>
+ * Uses auto-generated SQL queries based on annotations in the domain classes.
+ * </p>
+ * 
+ * <p>
  * <b>Note:</b> Requires a working database connection and correct environment
  * variables.
  * </p>
