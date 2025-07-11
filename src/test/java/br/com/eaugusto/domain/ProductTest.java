@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import br.com.eaugusto.dao.IProductDAO;
 import br.com.eaugusto.dao.ProductDAO;
+import br.com.eaugusto.exceptions.DAOException;
+import br.com.eaugusto.exceptions.DAOParameterException;
 
 /**
  * Integration test for {@link ProductDAO} using the {@link IProductDAO}
@@ -38,7 +40,7 @@ public class ProductTest {
 	private final IProductDAO dao = new ProductDAO();
 
 	@Test
-	public void registerTest() throws Exception {
+	public void registerTest() throws DAOException, DAOParameterException {
 		Product product = new Product();
 		product.setCode("A321B654");
 		product.setName("Test-Wooden-Table");
@@ -63,13 +65,13 @@ public class ProductTest {
 	}
 
 	@Test
-	public void searchNullProductTest() throws Exception {
+	public void searchNullProductTest() throws DAOException {
 		Product nullProduct = dao.search("This-code-should-never-exist-98764321");
 		assertNull(nullProduct);
 	}
 
 	@Test
-	public void searchAllTest() throws Exception {
+	public void searchAllTest() throws DAOException, DAOParameterException {
 		Product product1 = new Product();
 		product1.setCode("A987B456");
 		product1.setName("Test-Wooden-Cabinet");
@@ -98,7 +100,7 @@ public class ProductTest {
 	}
 
 	@Test
-	public void updateTest() throws Exception {
+	public void updateTest() throws DAOException, DAOParameterException {
 		Product product = new Product();
 		product.setCode("A1098B765");
 		product.setName("Test-Wood-Couch");

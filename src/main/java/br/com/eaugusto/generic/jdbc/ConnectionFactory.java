@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import br.com.eaugusto.exceptions.DatabaseConnectionException;
+
 /**
  * Utility class that manages a single JDBC connection to the PostgreSQL
  * database.
@@ -61,12 +63,13 @@ public final class ConnectionFactory {
 			String password = System.getenv("DB_PASSWORD");
 
 			if (url == null || username == null || password == null) {
-				throw new IllegalStateException("Database environment variables are not set.");
+				throw new DatabaseConnectionException(
+						"Missing database environment variables (DB_URL, DB_USERNAME, DB_PASSWORD).");
 			}
 
 			return DriverManager.getConnection(url, username, password);
 		} catch (SQLException e) {
-			throw new RuntimeException("Failed to connect to the database.", e);
+			throw new DatabaseConnectionException("Failed to establish a database connection.", e);
 		}
 	}
 }

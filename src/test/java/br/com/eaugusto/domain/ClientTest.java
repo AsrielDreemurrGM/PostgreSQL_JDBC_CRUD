@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import br.com.eaugusto.dao.ClientDAO;
 import br.com.eaugusto.dao.IClientDAO;
+import br.com.eaugusto.exceptions.DAOException;
+import br.com.eaugusto.exceptions.DAOParameterException;
 
 /**
  * Integration test for {@link ClientDAO} using the {@link IClientDAO}
@@ -38,7 +40,7 @@ public class ClientTest {
 	private final IClientDAO dao = new ClientDAO();
 
 	@Test
-	public void registerTest() throws Exception {
+	public void registerTest() throws DAOException, DAOParameterException {
 		Client client = new Client();
 		client.setCode("01");
 		client.setName("Eduardo");
@@ -61,13 +63,13 @@ public class ClientTest {
 	}
 
 	@Test
-	public void searchNullClientTest() throws Exception {
+	public void searchNullClientTest() throws DAOException {
 		Client nullClient = dao.search("This-code-never-should-exist-1234569");
 		assertNull(nullClient);
 	}
 
 	@Test
-	public void searchAllTest() throws Exception {
+	public void searchAllTest() throws DAOException, DAOParameterException {
 		Client client1 = new Client();
 		client1.setCode("01234");
 		client1.setName("Maria");
@@ -94,7 +96,7 @@ public class ClientTest {
 	}
 
 	@Test
-	public void updateTest() throws Exception {
+	public void updateTest() throws DAOException, DAOParameterException {
 		Client client = new Client();
 		client.setCode("A7654");
 		client.setName("Augusto");

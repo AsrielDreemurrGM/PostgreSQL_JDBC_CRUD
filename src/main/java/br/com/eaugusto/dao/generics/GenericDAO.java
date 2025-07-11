@@ -5,12 +5,16 @@ import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.eaugusto.annotations.Column;
 import br.com.eaugusto.annotations.Table;
 import br.com.eaugusto.domain.IPersistable;
+import br.com.eaugusto.exceptions.DAOException;
+import br.com.eaugusto.exceptions.DAOParameterException;
+import br.com.eaugusto.exceptions.EntityMappingException;
 import br.com.eaugusto.generic.jdbc.ConnectionFactory;
 
 /**
@@ -36,7 +40,7 @@ import br.com.eaugusto.generic.jdbc.ConnectionFactory;
  */
 public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<T> {
 
-	private final String WHERECODE = " WHERE code = ?";
+	private static final String WHERECODE = " WHERE code = ?";
 
 	/**
 	 * Retrieves the database table name from the {@link Table} annotation.
@@ -48,7 +52,7 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	private final String getTableName() {
 		Table tableAnnotation = getEntityClass().getAnnotation(Table.class);
 		if (tableAnnotation == null) {
-			throw new RuntimeException(
+			throw new EntityMappingException(
 					"Entity class " + getEntityClass().getSimpleName() + " missing @Table annotation");
 		}
 		return tableAnnotation.value();
@@ -65,37 +69,41 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	 * @return The mapped entity
 	 * @throws Exception If a reflection or SQL error occurs during mapping
 	 */
-	protected final T mapResult(ResultSet result) throws Exception {
-		T entity = getEntityClass().getDeclaredConstructor().newInstance();
+	protected final T mapResult(ResultSet result) {
+		try {
+			T entity = getEntityClass().getDeclaredConstructor().newInstance();
 
-		for (Field field : getEntityClass().getDeclaredFields()) {
-			Column columnAnnotation = field.getAnnotation(Column.class);
-			if (columnAnnotation != null) {
-				String columnName = columnAnnotation.value();
-				Object value = null;
-				Class<?> type = field.getType();
+			for (Field field : getEntityClass().getDeclaredFields()) {
+				Column columnAnnotation = field.getAnnotation(Column.class);
+				if (columnAnnotation != null) {
+					String columnName = columnAnnotation.value();
+					Object value = null;
+					Class<?> type = field.getType();
 
-				if (type.equals(Long.class)) {
-					value = result.getLong(columnName);
-				} else if (type.equals(String.class)) {
-					value = result.getString(columnName);
-				} else if (type.equals(Double.class)) {
-					value = result.getDouble(columnName);
-				} else if (type.equals(Integer.class)) {
-					value = result.getInt(columnName);
-				} else {
-					throw new RuntimeException("Unsupported field type: " + type.getName());
+					if (type.equals(Long.class)) {
+						value = result.getLong(columnName);
+					} else if (type.equals(String.class)) {
+						value = result.getString(columnName);
+					} else if (type.equals(Double.class)) {
+						value = result.getDouble(columnName);
+					} else if (type.equals(Integer.class)) {
+						value = result.getInt(columnName);
+					} else {
+						throw new EntityMappingException("Unsupported field type: " + type.getName());
+					}
+
+					String setterName = "set" + Character.toUpperCase(field.getName().charAt(0))
+							+ field.getName().substring(1);
+
+					Method setter = getEntityClass().getMethod(setterName, type);
+					setter.invoke(entity, value);
 				}
-
-				String setterName = "set" + Character.toUpperCase(field.getName().charAt(0))
-						+ field.getName().substring(1);
-
-				Method setter = getEntityClass().getMethod(setterName, type);
-				setter.invoke(entity, value);
 			}
-		}
 
-		return entity;
+			return entity;
+		} catch (Exception e) {
+			throw new EntityMappingException("Failed to map entity: " + getEntityClass().getSimpleName(), e);
+		}
 	}
 
 	/**
@@ -105,10 +113,10 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	 * @param entity    The entity with updated data
 	 * @throws Exception If an error occurs while setting parameters
 	 */
-	protected abstract void setUpdateParameters(PreparedStatement statement, T entity) throws Exception;
+	protected abstract void setUpdateParameters(PreparedStatement statement, T entity) throws DAOParameterException;
 
 	@Override
-	public Integer register(T entity) throws Exception {
+	public Integer register(T entity) {
 		String sql = getRegisterSql();
 
 		try (Connection connection = ConnectionFactory.getConnection();
@@ -117,11 +125,13 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 			setRegisterParameters(statement, entity);
 
 			return statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException("Error registering " + getEntityClass().getSimpleName(), e);
 		}
 	}
 
 	@Override
-	public T search(String code) throws Exception {
+	public T search(String code) {
 		String sql = getSelectSql() + WHERECODE;
 
 		try (Connection connection = ConnectionFactory.getConnection();
@@ -133,12 +143,14 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 					return mapResult(result);
 				}
 			}
+		} catch (SQLException e) {
+			throw new DAOException("Error searching entity by code: " + getEntityClass().getSimpleName(), e);
 		}
 		return null;
 	}
 
 	@Override
-	public Integer delete(T entity) throws Exception {
+	public Integer delete(T entity) {
 		String sql = "DELETE FROM " + getTableName() + WHERECODE;
 
 		try (Connection connection = ConnectionFactory.getConnection();
@@ -147,11 +159,13 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 			statement.setString(1, entity.getEntityCode());
 
 			return statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException("Error deleting entity: " + getEntityClass().getSimpleName(), e);
 		}
 	}
 
 	@Override
-	public List<T> searchAll() throws Exception {
+	public List<T> searchAll() {
 		String sql = getSelectSql();
 
 		try (Connection connection = ConnectionFactory.getConnection();
@@ -163,11 +177,13 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 				entities.add(mapResult(result));
 			}
 			return entities;
+		} catch (SQLException e) {
+			throw new DAOException("Error retrieving all entities: " + getEntityClass().getSimpleName(), e);
 		}
 	}
 
 	@Override
-	public Integer update(T entity) throws Exception {
+	public Integer update(T entity) {
 		String sql = getUpdateSql();
 
 		try (Connection connection = ConnectionFactory.getConnection();
@@ -175,6 +191,8 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 
 			setUpdateParameters(statement, entity);
 			return statement.executeUpdate();
+		} catch (SQLException e) {
+			throw new DAOException("Error updating entity: " + getEntityClass().getSimpleName(), e);
 		}
 	}
 
@@ -261,5 +279,5 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 	 * @param entity    The entity to insert
 	 * @throws Exception If an error occurs while setting parameters
 	 */
-	protected abstract void setRegisterParameters(PreparedStatement statement, T entity) throws Exception;
+	protected abstract void setRegisterParameters(PreparedStatement statement, T entity) throws DAOParameterException;
 }

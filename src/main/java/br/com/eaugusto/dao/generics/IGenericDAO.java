@@ -3,6 +3,7 @@ package br.com.eaugusto.dao.generics;
 import java.util.List;
 
 import br.com.eaugusto.domain.IPersistable;
+import br.com.eaugusto.exceptions.DAOException;
 
 /**
  * Generic DAO interface that defines basic CRUD operations for persistent
@@ -28,7 +29,7 @@ public interface IGenericDAO<T extends IPersistable> {
 	 * @return The number of rows affected
 	 * @throws Exception If a database error occurs
 	 */
-	public Integer register(T entity) throws Exception;
+	public Integer register(T entity) throws DAOException;
 
 	/**
 	 * Searches for a entity by their unique code.
@@ -37,7 +38,7 @@ public interface IGenericDAO<T extends IPersistable> {
 	 * @return The found entity, or null if not found
 	 * @throws Exception If a database error occurs
 	 */
-	public T search(String code) throws Exception;
+	public T search(String code) throws DAOException;
 
 	/**
 	 * Deletes a entity from the database.
@@ -46,7 +47,7 @@ public interface IGenericDAO<T extends IPersistable> {
 	 * @return The number of rows affected
 	 * @throws Exception If a database error occurs
 	 */
-	public Integer delete(T databaseEntity) throws Exception;
+	public Integer delete(T databaseEntity) throws DAOException;
 
 	/**
 	 * Retrieves all entities from the database.
@@ -54,7 +55,7 @@ public interface IGenericDAO<T extends IPersistable> {
 	 * @return A list of all entities
 	 * @throws Exception If a database error occurs
 	 */
-	public List<T> searchAll() throws Exception;
+	public List<T> searchAll() throws DAOException;
 
 	/**
 	 * Updates an existing entity in the database.
@@ -63,5 +64,5 @@ public interface IGenericDAO<T extends IPersistable> {
 	 * @return The number of rows affected
 	 * @throws Exception If a database error occurs
 	 */
-	public Integer update(T entity) throws Exception;
+	public Integer update(T entity) throws DAOException;
 }
