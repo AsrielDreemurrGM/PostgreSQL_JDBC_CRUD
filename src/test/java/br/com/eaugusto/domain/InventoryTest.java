@@ -3,6 +3,7 @@ package br.com.eaugusto.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -51,19 +52,25 @@ public class InventoryTest {
 	@BeforeEach
 	public void setup() {
 		client = new Client();
-		client.setCode("INVENTORYTESTITEM1");
+		client.setCode("INVTEST1");
 		client.setName("Inventory Client");
-		client.setEmail("client@inventory.com");
 		client.setPhone("(11) 99999-0000");
+		client.setCpf("00000000191");
+		client.setAddress("Rua Inventory");
+		client.setAddressNumber("10");
+		client.setCity("SQL");
+		client.setState("PostgreSQL");
+		client.setBirthDate(LocalDate.parse("2000-01-01"));
 		clientDAO.register(client);
 		client.setId(clientDAO.search(client.getEntityCode()).getId());
 
 		product = new Product();
-		product.setCode("INVENTORYTESTITEM2");
+		product.setCode("INVTEST2");
 		product.setName("Inventory Product");
 		product.setDescription("Product for inventory testing");
 		product.setPrice(199.99);
 		product.setStockQuantity(50);
+		product.setCategory("Test Category");
 		productDAO.register(product);
 		product.setId(productDAO.search(product.getEntityCode()).getId());
 

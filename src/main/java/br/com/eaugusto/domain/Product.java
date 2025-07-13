@@ -18,7 +18,7 @@ import br.com.eaugusto.annotations.Table;
  * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
- * @since July 6, 2025 (updated July 10, 2025 for annotation-based persistence)
+ * @since July 6, 2025
  */
 @Table("tb_product")
 public class Product implements IPersistable {
@@ -41,6 +41,9 @@ public class Product implements IPersistable {
 	@Column("stock_quantity")
 	private Integer stockQuantity;
 
+	@Column("category")
+	private String category;
+
 	public Long getId() {
 		return id;
 	}
@@ -57,16 +60,20 @@ public class Product implements IPersistable {
 		return stockQuantity;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setDescription(String description) {
@@ -79,6 +86,10 @@ public class Product implements IPersistable {
 
 	public void setStockQuantity(Integer stockQuantity) {
 		this.stockQuantity = stockQuantity;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
 	}
 
 	@Override

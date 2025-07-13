@@ -1,5 +1,7 @@
 package br.com.eaugusto.domain;
 
+import java.time.LocalDate;
+
 import br.com.eaugusto.annotations.Column;
 import br.com.eaugusto.annotations.Table;
 
@@ -18,7 +20,7 @@ import br.com.eaugusto.annotations.Table;
  * </p>
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
- * @since July 5, 2025 (updated July 10, 2025 for annotation-based persistence)
+ * @since July 5, 2025
  */
 @Table("tb_client")
 public class Client implements IPersistable {
@@ -32,14 +34,57 @@ public class Client implements IPersistable {
 	@Column("name")
 	private String name;
 
-	@Column("email")
-	private String email;
+	@Column("cpf")
+	private String cpf;
 
 	@Column("phone")
 	private String phone;
 
+	@Column("address")
+	private String address;
+
+	@Column("address_number")
+	private String addressNumber;
+
+	@Column("city")
+	private String city;
+
+	@Column("state")
+	private String state;
+
+	@Column("birth_date")
+	private LocalDate birthDate;
+
 	public Long getId() {
 		return id;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public String getAddressNumber() {
+		return addressNumber;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public LocalDate getBirthDate() {
+		return birthDate;
 	}
 
 	public void setId(Long id) {
@@ -54,20 +99,32 @@ public class Client implements IPersistable {
 		this.name = name;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public String getPhone() {
-		return phone;
+	public void setAddressNumber(String addressNumber) {
+		this.addressNumber = addressNumber;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	@Override

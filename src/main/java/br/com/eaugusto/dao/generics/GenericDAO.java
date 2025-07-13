@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +89,9 @@ public abstract class GenericDAO<T extends IPersistable> implements IGenericDAO<
 						value = result.getDouble(columnName);
 					} else if (type.equals(Integer.class)) {
 						value = result.getInt(columnName);
+					} else if (type.equals(LocalDate.class)) {
+						java.sql.Date sqlDate = result.getDate(columnName);
+						value = sqlDate != null ? sqlDate.toLocalDate() : null;
 					} else {
 						throw new EntityMappingException("Unsupported field type: " + type.getName());
 					}

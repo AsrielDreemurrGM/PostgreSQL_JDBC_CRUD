@@ -50,6 +50,7 @@ public class ProductTest {
 		product.setCode("A321B654");
 		product.setName("Test-Wooden-Table");
 		product.setDescription("Four-Legged-Table");
+		product.setCategory("Kitchen Furniture");
 		product.setPrice(99.99);
 		product.setStockQuantity(10);
 
@@ -62,6 +63,7 @@ public class ProductTest {
 		assertEquals(product.getEntityCode(), databaseProduct.getEntityCode());
 		assertEquals(product.getEntityName(), databaseProduct.getEntityName());
 		assertEquals(product.getDescription(), databaseProduct.getDescription());
+		assertEquals(product.getCategory(), databaseProduct.getCategory());
 		assertEquals(product.getPrice(), databaseProduct.getPrice());
 		assertEquals(product.getStockQuantity(), databaseProduct.getStockQuantity());
 
@@ -81,6 +83,7 @@ public class ProductTest {
 		product1.setCode("A987B456");
 		product1.setName("Test-Wooden-Cabinet");
 		product1.setDescription("Maple-Wood-Cabinet");
+		product1.setCategory("Furniture");
 		product1.setPrice(150.00);
 		product1.setStockQuantity(5);
 		dao.register(product1);
@@ -89,6 +92,7 @@ public class ProductTest {
 		product2.setCode("A543B210");
 		product2.setName("Test-Wooden-Chair");
 		product2.setDescription("Three-Legged-Chair");
+		product1.setCategory("Outdoors Furniture");
 		product2.setPrice(49.99);
 		product2.setStockQuantity(15);
 		dao.register(product2);
@@ -110,6 +114,7 @@ public class ProductTest {
 		product.setCode("A1098B765");
 		product.setName("Test-Wood-Couch");
 		product.setDescription("Couch-Made-Of-Hard-Wood");
+		product.setCategory("Furniture");
 		product.setPrice(200.00);
 		product.setStockQuantity(7);
 		dao.register(product);
