@@ -12,6 +12,20 @@ import br.com.eaugusto.exceptions.InventoryMappingException;
 import br.com.eaugusto.generic.jdbc.ConnectionFactory;
 
 /**
+ * Inventory DAO implementation that provides methods to register and query
+ * inventory transactions in the database.
+ * 
+ * <p>
+ * It handles manual SQL interactions using JDBC and maps the results to the
+ * {@link Inventory} entity. It uses a custom exception,
+ * {@link InventoryMappingException}, for handling mapping errors.
+ * </p>
+ * 
+ * @see IInventoryDAO
+ * @see Inventory
+ * @see DAOException
+ * @see InventoryMappingException
+ * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 12, 2025
  */
@@ -127,6 +141,13 @@ public class InventoryDAO implements IInventoryDAO {
 		}
 	}
 
+	/**
+	 * Builds and returns an {@link Inventory} object from a database result row.
+	 * 
+	 * @param result The current row of the {@link ResultSet}
+	 * @return An {@link Inventory} object built from the row
+	 * @throws InventoryMappingException If any column cannot be mapped properly
+	 */
 	private Inventory buildFromResult(ResultSet result) throws InventoryMappingException {
 		try {
 			Inventory inventory = new Inventory();

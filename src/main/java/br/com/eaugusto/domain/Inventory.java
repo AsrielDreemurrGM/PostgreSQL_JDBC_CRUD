@@ -1,6 +1,18 @@
 package br.com.eaugusto.domain;
 
 /**
+ * Represents an inventory transaction for a specific product sold to a client.
+ * 
+ * <p>
+ * This class stores the data for each inventory sale, including the client and
+ * product involved, the quantity sold, and the timestamp of the transaction.
+ * </p>
+ * 
+ * <p>
+ * The inventory is managed directly via DAO operations and is not part of the
+ * generic annotation-based persistence.
+ * </p>
+ * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 12, 2025
  */

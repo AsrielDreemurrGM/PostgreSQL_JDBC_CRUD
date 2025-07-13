@@ -17,6 +17,24 @@ import br.com.eaugusto.dao.InventoryDAO;
 import br.com.eaugusto.dao.ProductDAO;
 
 /**
+ * Integration test suite for the {@link InventoryDAO} operations.
+ * 
+ * <p>
+ * Covers registering, searching, and deleting inventory transactions. Uses
+ * {@code @BeforeEach} to prepare client/product data and {@code @AfterEach} to
+ * clean it up.
+ * </p>
+ * 
+ * <p>
+ * Also includes a test that verifies DAOException is thrown when foreign key
+ * constraints are violated.
+ * </p>
+ * 
+ * <p>
+ * <b>Note:</b> Requires a working database connection and correct environment
+ * variables.
+ * </p>
+ * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 12, 2025
  */

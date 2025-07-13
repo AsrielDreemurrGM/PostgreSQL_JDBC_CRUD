@@ -14,23 +14,27 @@ import br.com.eaugusto.exceptions.DAOException;
 import br.com.eaugusto.exceptions.DAOParameterException;
 
 /**
- * Integration test for {@link ClientDAO} using the {@link IClientDAO}
- * interface.
- *
+ * Integration test suite for the {@link ClientDAO} operations.
+ * 
  * <p>
- * This test performs a complete database cycle for clients: it registers a new
- * client, retrieves it, validates the data, updates it, and then deletes it
- * from the database.
+ * Covers registering, searching, updating, deleting, and listing all clients
+ * from the database. Validates data integrity and CRUD behavior.
  * </p>
- *
+ * 
  * <p>
- * Uses auto-generated SQL queries based on annotations in the domain classes.
+ * Uses annotation-based SQL generation and requires a functional database
+ * connection for execution.
  * </p>
- *
+ * 
  * <p>
  * <b>Note:</b> Requires a working database connection and correct environment
  * variables.
  * </p>
+ * 
+ * @see IClientDAO
+ * @see DAOException
+ * @see DAOParameterException
+ * @see br.com.eaugusto.domain.Client
  * 
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 5, 2025

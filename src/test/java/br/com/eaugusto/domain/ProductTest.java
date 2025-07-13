@@ -14,17 +14,17 @@ import br.com.eaugusto.exceptions.DAOException;
 import br.com.eaugusto.exceptions.DAOParameterException;
 
 /**
- * Integration test for {@link ProductDAO} using the {@link IProductDAO}
- * interface.
+ * Integration test suite for the {@link ProductDAO} operations.
  * 
  * <p>
- * This test performs a complete database cycle for products: it registers a new
- * product, retrieves it, validates the data, updates it, and then deletes it
- * from the database.
+ * Covers registering, searching, updating, deleting, and listing all products
+ * from the database. Ensures persistence accuracy using annotation-based SQL
+ * reflection.
  * </p>
  * 
  * <p>
- * Uses auto-generated SQL queries based on annotations in the domain classes.
+ * Requires a valid JDBC connection and a database with appropriate tables and
+ * sequences.
  * </p>
  * 
  * <p>
@@ -32,6 +32,11 @@ import br.com.eaugusto.exceptions.DAOParameterException;
  * variables.
  * </p>
  * 
+ * @see IProductDAO
+ * @see DAOException
+ * @see DAOParameterException
+ * @see br.com.eaugusto.domain.Product
+ *
  * @author Eduardo Augusto (github.com/AsrielDreemurrGM/)
  * @since July 7, 2025
  */
