@@ -33,3 +33,20 @@ CREATE SEQUENCE IF NOT EXISTS sq_product
     START WITH 1
     INCREMENT BY 1
     OWNED BY tb_product.id;
+
+-- Creates the inventory table
+CREATE TABLE IF NOT EXISTS tb_inventory (
+	id BIGINT PRIMARY KEY,
+	client_id BIGINT NOT NULL,
+	product_id BIGINT NOT NULL,
+	quantity_sold INTEGER NOT NULL,
+	sale_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (client_id) REFERENCES tb_client (id),
+	FOREIGN KEY (product_id) REFERENCES tb_product (id)
+);
+
+-- Creates the sequence for inventory IDs
+CREATE SEQUENCE IF NOT EXISTS sq_inventory
+    START WITH 1
+    INCREMENT BY 1
+    OWNED BY tb_inventory.id;
