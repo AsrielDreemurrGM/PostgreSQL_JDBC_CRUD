@@ -73,7 +73,8 @@
   <li>Sequências: <code>sq_client</code>, <code>sq_product</code> e <code>sq_inventory</code> para geração automática de IDs.</li>
 </ul>
 <h3>Destaques do Script:</h3>
-<pre><code>-- Cria o banco de dados
+<pre><code>
+-- Cria o banco de dados
 CREATE DATABASE online_selling;
 
 -- Lembre-se de mudar para o banco criado antes de executar o restante do script
@@ -81,10 +82,15 @@ CREATE DATABASE online_selling;
 -- Tabela de clientes
 CREATE TABLE IF NOT EXISTS tb_client (
     id BIGINT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
     code VARCHAR(50) NOT NULL,
-    email VARCHAR(100),
-    phone VARCHAR(20)
+    name VARCHAR(50) NOT NULL,
+    cpf VARCHAR(20),
+    phone VARCHAR(20),
+    address VARCHAR(50),
+    address_number VARCHAR(10),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    birth_date VARCHAR(20)
 );
 
 -- Sequência para IDs de clientes
@@ -96,11 +102,12 @@ CREATE SEQUENCE IF NOT EXISTS sq_client
 -- Tabela de produtos
 CREATE TABLE IF NOT EXISTS tb_product (
     id BIGINT PRIMARY KEY,
+    code VARCHAR(10) NOT NULL,
     name VARCHAR(50) NOT NULL,
-    code VARCHAR(50) NOT NULL,
     description VARCHAR(100),
     price NUMERIC(10, 2),
-    stock_quantity INTEGER
+    stock_quantity INTEGER,
+    category VARCHAR(30)
 );
 
 -- Sequência para IDs de produtos

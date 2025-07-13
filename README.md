@@ -84,10 +84,15 @@ CREATE DATABASE online_selling;
 -- Creates the client table
 CREATE TABLE IF NOT EXISTS tb_client (
     id BIGINT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
     code VARCHAR(50) NOT NULL,
-    email VARCHAR(100),
-    phone VARCHAR(20)
+    name VARCHAR(50) NOT NULL,
+    cpf VARCHAR(20),
+    phone VARCHAR(20),
+    address VARCHAR(50),
+    address_number VARCHAR(10),
+    city VARCHAR(50),
+    state VARCHAR(50),
+    birth_date VARCHAR(20)
 );
 
 -- Creates the sequence for client IDs
@@ -99,11 +104,12 @@ CREATE SEQUENCE IF NOT EXISTS sq_client
 -- Creates the product table
 CREATE TABLE IF NOT EXISTS tb_product (
     id BIGINT PRIMARY KEY,
+    code VARCHAR(10) NOT NULL,
     name VARCHAR(50) NOT NULL,
-    code VARCHAR(50) NOT NULL,
     description VARCHAR(100),
     price NUMERIC(10, 2),
-    stock_quantity INTEGER
+    stock_quantity INTEGER,
+    category VARCHAR(30)
 );
 
 -- Creates the sequence for product IDs
