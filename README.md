@@ -11,8 +11,8 @@
 <ul>
   <li>✅ Database connection through PostgreSQL using JDBC;</li>
   <li>✅ Generic DAO implementation to reduce repetitive code;</li>
-  <li>✅ Entity models like <code>Client</code> and <code>Product</code> with custom fields and behaviors;</li>
-  <li>✅ Full CRUD operations with PostgreSQL for both entities;</li>
+  <li>✅ Entity models like <code>Client</code>, <code>Product</code>, and <code>Inventory</code> with custom fields and behaviors;</li>
+  <li>✅ Full CRUD operations with PostgreSQL for all entities;</li>
   <li>✅ Test-driven development (TDD) approach using <strong>JUnit 5</strong>;</li>
   <li>✅ Javadoc documentation for all main classes and interfaces;</li>
   <li>✅ Usage of environment variables for secure database connection configuration;</li>
@@ -32,19 +32,19 @@
 </p>
 <h2>🗂️ Project Structure</h2>
 <ul>
-  <li><code>br.com.eaugusto.domain</code>: Entity classes like <code>Client</code> and <code>Product</code>, along with the <code>IPersistable</code> interface;</li>
-  <li><code>br.com.eaugusto.dao</code>: DAO interfaces and classes, including the generic DAO layer;</li>
-  <li><code>br.com.eaugusto.dao.generics</code>: Generic DAO base implementations for reusable CRUD operations;</li>
-  <li><code>br.com.eaugusto</code> (tests): Contains all test classes, including DAO and database connection tests;</li>
-  <li><code>schema.sql</code>: SQL file for creating the necessary tables and sequences.</li>
+  <li><code>br.com.eaugusto.domain</code>: Entity classes like <code>Client</code>, <code>Product</code>, and <code>Inventory</code>, plus the <code>IPersistable</code> interface;</li>
+  <li><code>br.com.eaugusto.dao</code>: DAO interfaces and implementations for all entities;</li>
+  <li><code>br.com.eaugusto.dao.generics</code>: Generic DAO base implementations using annotations and reflection;</li>
+  <li><code>br.com.eaugusto</code> (tests): JUnit test classes for DAO and connection testing;</li>
+  <li><code>schema.sql</code>: SQL script to create all tables and sequences for the database.</li>
 </ul>
 <h2>🧪 Testing Approach</h2>
 <ul>
   <li>✅ Tests written using <strong>JUnit 5</strong>;</li>
-  <li>✅ TDD methodology followed throughout development;</li>
-  <li>✅ Database connection tests to ensure connectivity and stability;</li>
-  <li>✅ Comprehensive CRUD tests for both <code>Client</code> and <code>Product</code> DAOs;</li>
-  <li>✅ Mock data creation and validation via assertions in every test case.</li>
+  <li>✅ TDD methodology used during development;</li>
+  <li>✅ Full integration tests for CRUD and database operations;</li>
+  <li>✅ DAOException, MappingException, and connection error testing included;</li>
+  <li>✅ Extensive assertion usage and rollback logic after each test.</li>
 </ul>
 <h2>📋 Technologies Used</h2>
 <ul>
@@ -52,58 +52,81 @@
   <li>PostgreSQL;</li>
   <li>JDBC;</li>
   <li>JUnit 5;</li>
-  <li>Environment Variables for configuration.</li>
+  <li>Environment Variables;</li>
+  <li>Reflection and Annotations in Java.</li>
 </ul>
 <h2>📑 Learning Goals</h2>
 <ul>
-  <li>Apply Test-Driven Development (TDD) to backend projects;</li>
-  <li>Master the use of JDBC for database operations in Java;</li>
-  <li>Design flexible DAOs using <strong>Generics</strong>;</li>
-  <li>Ensure clean, maintainable code with full documentation and tests.</li>
+  <li>Build reusable DAOs using generics and annotations;</li>
+  <li>Apply TDD in backend development;</li>
+  <li>Securely configure environment variables for DB access;</li>
+  <li>Structure a professional-grade backend Java application;</li>
+  <li>Use Java Reflection for dynamic SQL generation.</li>
 </ul>
 <h2>📂 Database Schema (schema.sql)</h2>
 <a href="./schema.sql" target="_blank">📄 Link to schema.sql (SQL Script)</a>
 <p>
-  The provided <code>schema.sql</code> script creates the required database structure for the application:
+  The provided <code>schema.sql</code> script creates the full structure needed for the application:
 </p>
 <ul>
   <li>Database: <code>online_selling</code></li>
-  <li>Tables: <code>tb_client</code> and <code>tb_product</code></li>
-  <li>Sequences: <code>sq_client</code> and <code>sq_product</code> for auto-incrementing IDs</li>
+  <li>Tables: <code>tb_client</code>, <code>tb_product</code>, and <code>tb_inventory</code></li>
+  <li>Sequences: <code>sq_client</code>, <code>sq_product</code>, <code>sq_inventory</code></li>
 </ul>
 <h3>Script Highlights:</h3>
 <pre>
   <code>
--- Creates the database
-  CREATE DATABASE online_selling;
-  
-  -- Switch to the new database before running the rest
-  
-  -- Client table
-  CREATE TABLE IF NOT EXISTS tb_client (
-      id BIGINT PRIMARY KEY,
-      name VARCHAR(50) NOT NULL,
-      code VARCHAR(50) NOT NULL
-  );
-  
-  -- Sequence for client IDs
-  CREATE SEQUENCE IF NOT EXISTS sq_client
-      START WITH 1
-      INCREMENT BY 1
-      OWNED BY tb_client.id;
-  
-  -- Product table
-  CREATE TABLE IF NOT EXISTS tb_product (
-      id BIGINT PRIMARY KEY,
-      name VARCHAR(50) NOT NULL,
-      code VARCHAR(50) NOT NULL,
-      description VARCHAR(50) NOT NULL
-  );
-  
-  -- Sequence for product IDs
-  CREATE SEQUENCE IF NOT EXISTS sq_product
-      START WITH 1
-      INCREMENT BY 1
-      OWNED BY tb_product.id;
+-- Creates the database for the project
+CREATE DATABASE online_selling;
+
+-- Remember to switch to the new database before running the below script;
+
+-- Creates the client table
+CREATE TABLE IF NOT EXISTS tb_client (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    code VARCHAR(50) NOT NULL,
+    email VARCHAR(100),
+    phone VARCHAR(20)
+);
+
+-- Creates the sequence for client IDs
+CREATE SEQUENCE IF NOT EXISTS sq_client
+    START WITH 1
+    INCREMENT BY 1
+    OWNED BY tb_client.id;
+
+-- Creates the product table
+CREATE TABLE IF NOT EXISTS tb_product (
+    id BIGINT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    code VARCHAR(50) NOT NULL,
+    description VARCHAR(100),
+    price NUMERIC(10, 2),
+    stock_quantity INTEGER
+);
+
+-- Creates the sequence for product IDs
+CREATE SEQUENCE IF NOT EXISTS sq_product
+    START WITH 1
+    INCREMENT BY 1
+    OWNED BY tb_product.id;
+
+-- Creates the inventory table
+CREATE TABLE IF NOT EXISTS tb_inventory (
+    id BIGINT PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity_sold INTEGER NOT NULL,
+    sale_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES tb_client (id),
+    FOREIGN KEY (product_id) REFERENCES tb_product (id)
+);
+
+-- Creates the sequence for inventory IDs
+CREATE SEQUENCE IF NOT EXISTS sq_inventory
+    START WITH 1
+    INCREMENT BY 1
+    OWNED BY tb_inventory.id;
   </code>
 </pre>
